@@ -54,7 +54,11 @@ EXPOSE 3050
 # healthcheck)" otherwise) and waits for it before replacing the old container.
 # busybox wget ships with alpine (no curl needed). 127.0.0.1, not localhost: the
 # server binds IPv4 0.0.0.0 only. HEAD request on `/`; costs ~nothing every 30 s.
-HEALTHCHECK --interval=30s --timeout=3s --start-period=15s --retries=3 \
+# Coolify waits out the whole start period before it looks at the status (seen in
+# its deploy log), so keep it short: Next is ready in well under a second, and
+# --start-interval makes Docker check every 1 s during that window so the
+# container is already "healthy" when Coolify looks.
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --start-interval=1s --retries=3 \
     CMD wget -q --spider "http://127.0.0.1:${PORT}/" || exit 1
 # `node` as PID 1 (not `pnpm start`): one process instead of three, and SIGTERM
 # from `docker stop` / Coolify redeploys reaches Next directly for a clean stop.
