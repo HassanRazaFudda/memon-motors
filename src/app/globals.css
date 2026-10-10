@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — see CLAUDE.md "Design System" (v2: BMW M reference).
+ * Structure (0px radius everywhere but circular icon buttons, no shadows,
+ * 700-display/light-body contrast, near-black canvas with zero light-mode
+ * sections) is inherited from DESIGN.md (BMW M). Color tokens are our real
+ * sampled brand values (logo gold, business-card red) standing in for
+ * BMW M's white/blue — see CLAUDE.md for the full mapping table.
+ */
+@theme {
+  /* No page-width cap: the site runs genuinely full-width (w-full + responsive
+     px-6/sm:px-10/xl:px-16 gutters only), not a centered boxed column. A
+     1280px → 1680px cap was tried first and still read as a dead margin on a
+     normal 1920px monitor — removing the cap entirely is what actually
+     answers "why is there still a gap on the sides." */
+
+  /* Ink / neutrals — BMW M's on-dark/body/muted, this is a dark-canvas-only system now */
+  --color-ink: #ffffff;
+  --color-ink-soft: #bbbbbb;
+  --color-muted: #8a8a8a;
+  --color-muted-soft: #5c5c5c;
+
+  /* Surfaces — near-black canvas, no light-mode sections anywhere */
+  --color-canvas: #0a0a0a;
+  --color-canvas-warm: #000000;
+  --color-surface: #0d0d0d;
+  --color-surface-card: #1a1a1a;
+  --color-surface-strong: #1a1a1a;
+  --color-surface-elevated: #262626;
+
+  /* Hairlines — dark-surface dividers, replace lost shadow depth */
+  --color-hairline: #2e2e2e;
+  --color-hairline-soft: #3c3c3c;
+  --color-border-strong: #525252;
+
+  /* Brand red — CTA fill, sampled from the business card ribbon */
+  --color-red: #b31e20;
+  --color-red-light: #e3272c;
+  --color-red-dark: #6d1719;
+
+  /* Brand gold — the signature-stripe accent (stands in for BMW M's tricolor), sampled from the logo badge */
+  --color-gold: #dda936;
+  --color-gold-light: #f0c04b;
+  --color-gold-dark: #c59129;
+
+  /* Fonts — see src/lib/fonts.ts */
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius scale — "engineered precision": 0px on every surface except
+     rounded-full (circular icon buttons, the logo badge). This is the
+     single biggest visual signature of the v2 direction. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+
+  /* No shadows anywhere — depth comes from photography + surface-tone
+     steps only, per BMW M. Kept as a named token (not deleted) so any
+     `shadow-card` usage resolves to nothing rather than erroring. */
+  --shadow-card: none;
+
+  /* Context-appropriate motion timing — never one flat duration for everything */
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-base: 350ms;
+  --duration-slow: 650ms;
+}
+
+/*
+ * Light theme — same structure/tokens as the dark (default) theme above,
+ * only the ink/canvas/surface/hairline roles flip for a white-canvas read.
+ * Brand red and gold stay IDENTICAL in both themes (sampled from the real
+ * business card/logo, not a theme-dependent choice).
+ *
+ * Every section — including header.tsx / footer.tsx / hero.tsx — is built
+ * from these tokens and re-themes automatically; there's no permanently-dark
+ * "chrome" band. --color-canvas-warm stays a constant black (never
+ * redefined here) but is only used where something needs dark text/backdrop
+ * regardless of theme for contrast reasons — e.g. the dark text on a
+ * `gold`-variant button, or the circular logo medallion on host-card —
+ * not for page-level sections.
+ */
+:root[data-theme="light"] {
+  /* Warm ivory/cream undertone throughout (not stark/cold white) — reads as
+     boutique-premium and pairs with the gold accent far better than a
+     neutral-gray SaaS palette would. */
+  --color-ink: #1c1712;
+  --color-ink-soft: #4a4238;
+  --color-muted: #786f62;
+  --color-muted-soft: #a89c8a;
+
+  --color-canvas: #faf7f2;
+  --color-surface: #f3ede2;
+  --color-surface-card: #fffdf9;
+  --color-surface-strong: #ece3d4;
+  --color-surface-elevated: #e3d7c2;
+
+  --color-hairline: #e6dcc9;
+  --color-hairline-soft: #d8c9ac;
+  --color-border-strong: #b3a080;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis owns smooth scrolling; see smooth-scroll-provider */
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
+
+/* Hides the scrollbar on the horizontally-scrollable reviews carousel while
+   keeping native touch/wheel/drag scrolling fully functional. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* The gold signature stripe — our equivalent of BMW M's tricolor divider.
+   Used sparingly: thin dividers and badge accents, never a CTA fill. */
+.gold-stripe {
+  background: linear-gradient(
+    90deg,
+    var(--color-gold-dark),
+    var(--color-gold-light),
+    var(--color-gold)
+  );
+}
+
+::selection {
+  background: var(--color-gold-light);
+  color: var(--color-canvas-warm); /* brand-constant black; stays readable on gold in both themes */
+}
+
+/* Visible keyboard focus everywhere — never remove this, only restyle it. */
+:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
