@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { JsonLd } from "@/components/json-ld";
 import { StickyBookingCard } from "@/components/sections/sticky-booking-card";
+import { FaqSection } from "@/components/sections/faq-section";
+import { SuburbLinks } from "@/components/sections/suburb-links";
 import { Reveal } from "@/components/motion/reveal";
-import { breadcrumbSchema } from "@/lib/schema";
-import { business, serviceBySlug, services } from "@/lib/business";
+import { breadcrumbSchema, serviceSchema } from "@/lib/schema";
+import { serviceBySlug, services } from "@/lib/business";
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -20,8 +22,8 @@ export async function generateMetadata(
   if (!service) return {};
 
   return {
-    title: service.name,
-    description: service.summary,
+    title: service.seoTitle,
+    description: service.seoDescription,
   };
 }
 
@@ -43,16 +45,7 @@ export default async function ServiceDetailPage(
           { name: service.shortName, url: `/services/${service.slug}` },
         ])}
       />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "Service",
-          name: service.name,
-          description: service.summary,
-          provider: { "@type": "AutoRepair", name: business.name },
-          areaServed: { "@type": "City", name: "Truganina" },
-        }}
-      />
+      <JsonLd data={serviceSchema(service)} />
 
       <section className="w-full px-6 py-16 sm:px-10 sm:py-24">
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-muted">
@@ -112,6 +105,49 @@ export default async function ServiceDetailPage(
                 </div>
               )}
             </Reveal>
+
+            {service.sections?.map((section) => (
+              <div key={section.heading} className="mt-12 max-w-2xl">
+                <h2 className="font-display text-lg font-bold text-ink">
+                  {section.heading}
+                </h2>
+                <div className="mt-3 space-y-3">
+                  {section.body.map((paragraph) => (
+                    <p key={paragraph} className="text-[17px] leading-relaxed text-ink-soft">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                {section.source && (
+                  <p className="mt-3 text-sm text-muted">
+                    Source:{" "}
+                    <a
+                      href={section.source.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-4 hover:text-ink"
+                    >
+                      {section.source.label}
+                    </a>
+                  </p>
+                )}
+              </div>
+            ))}
+
+            {service.faqs && (
+              <div className="mt-14 border-t border-hairline pt-10">
+                <FaqSection faqs={service.faqs} id={`${service.slug}-faq`} />
+              </div>
+            )}
+
+            <div className="mt-14 border-t border-hairline pt-10">
+              <h2 className="font-display text-lg font-bold text-ink">
+                Areas we serve
+              </h2>
+              <div className="mt-4">
+                <SuburbLinks />
+              </div>
+            </div>
 
             <div className="mt-14 border-t border-hairline pt-10">
               <h2 className="font-display text-lg font-bold text-ink">

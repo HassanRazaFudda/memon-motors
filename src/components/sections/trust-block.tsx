@@ -17,7 +17,7 @@ export function TrustBlock() {
           <StarRow />
         </div>
         <p className="mt-2 text-sm text-muted">
-          from {business.rating.count}+ reviews on Google
+          from {business.rating.countLabel} reviews on Google
         </p>
       </div>
 

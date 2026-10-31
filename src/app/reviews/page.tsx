@@ -6,8 +6,8 @@ import { breadcrumbSchema } from "@/lib/schema";
 import { business } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Reviews",
-  description: `${business.rating.value}★ from ${business.rating.count}+ Google reviews: real feedback from Memon Motors customers in Truganina.`,
+  title: "Customer Reviews: 4.9★ on Google",
+  description: `${business.rating.value}★ from ${business.rating.countLabel} Google reviews. Real customer feedback on Memon Motors' fair pricing, repairs, roadworthy certificates and car rentals in Truganina.`,
 };
 
 export default function ReviewsPage() {

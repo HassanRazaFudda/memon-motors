@@ -23,15 +23,27 @@ export const business = {
     postcode: "3029",
     country: "AU",
   },
+  /** Exact pin of the Google Business Profile ("Memon Motors Melbourne"), read from Google Maps 2026-10-31. */
   geo: {
-    lat: -37.8167,
-    lng: 144.7167,
+    lat: -37.8181805,
+    lng: 144.738346,
   },
+  /**
+   * Google Maps showed 4.9 from 105 reviews on 2026-10-31. `count` feeds
+   * structured data (must be the exact figure); `countLabel` is the rounded
+   * floor used in visible copy so the page doesn't go stale or overstate.
+   */
   rating: {
     value: 4.9,
-    count: 106,
+    count: 105,
+    countLabel: "100+",
     source: "Google",
   },
+  facebookUrl: "https://www.facebook.com/p/Memon-Motors-100052455801516",
+  /** Google Maps listing, from the place's CID (0xb6706a10a92e2a0a) in its Maps URL. */
+  mapsListingUrl: "https://maps.google.com/?cid=13146123932084873738",
+  /** Payment methods listed on the Google Business Profile "About" tab. */
+  paymentAccepted: "Credit card, debit card, mobile payments",
 } as const;
 
 export const telHref = `tel:${business.phoneE164}`;
@@ -43,16 +55,17 @@ export const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encod
 export const fullAddress = `${business.address.street}, ${business.address.suburb} ${business.address.state} ${business.address.postcode}`;
 
 /**
- * Hours as listed on Birdeye (treated as the more current source vs. the
- * 2+ year old Cylex listing — see business-info.md §4). Still flagged for
- * final owner confirmation per CLAUDE.md.
+ * Hours as shown on the owner-managed Google Business Profile (Mon–Fri
+ * 9am–5:30pm, Sat 1–3pm, Sun closed), read from Google Maps 2026-10-31.
+ * Third-party directories list Mon–Fri closing at 6pm; the GBP is the
+ * owner's own live data, so it wins. Keep the GBP and this file in sync.
  */
 export const hours = [
-  { day: "Monday", open: "09:00", close: "18:00" },
-  { day: "Tuesday", open: "09:00", close: "18:00" },
-  { day: "Wednesday", open: "09:00", close: "18:00" },
-  { day: "Thursday", open: "09:00", close: "18:00" },
-  { day: "Friday", open: "09:00", close: "18:00" },
+  { day: "Monday", open: "09:00", close: "17:30" },
+  { day: "Tuesday", open: "09:00", close: "17:30" },
+  { day: "Wednesday", open: "09:00", close: "17:30" },
+  { day: "Thursday", open: "09:00", close: "17:30" },
+  { day: "Friday", open: "09:00", close: "17:30" },
   { day: "Saturday", open: "13:00", close: "15:00" },
   { day: "Sunday", open: null, close: null },
 ] as const;
@@ -69,6 +82,31 @@ export function formatHourRange(h: { open: string | null; close: string | null }
   return `${fmt(h.open)} – ${fmt(h.close)}`;
 }
 
+/** One-line, human-readable hours built from `hours`, so copy can't drift from the data. */
+export function hoursSummary() {
+  const weekdays = hours.slice(0, 5);
+  const sat = hours[5];
+  const weekdayRange = formatHourRange(weekdays[0]);
+  const sameWeekdays = weekdays.every((h) => formatHourRange(h) === weekdayRange);
+  const parts = [
+    sameWeekdays ? `Mon–Fri ${weekdayRange}` : weekdays.map((h) => `${h.day.slice(0, 3)} ${formatHourRange(h)}`).join(", "),
+    `Sat ${formatHourRange(sat)}`,
+    "closed Sunday",
+  ];
+  return parts.join(", ");
+}
+
+export interface Faq {
+  q: string;
+  a: string;
+}
+
+export interface ServiceSection {
+  heading: string;
+  body: string[];
+  source?: { label: string; href: string };
+}
+
 export type ServiceSlug =
   | "roadworthy-certificate"
   | "mechanical-repairs"
@@ -81,10 +119,25 @@ export interface Service {
   shortName: string;
   summary: string;
   description: string[];
+  /** Search-result title (the site template appends "| Memon Motors") and description. */
+  seoTitle: string;
+  seoDescription: string;
+  /** Extra answer-first content blocks, each optionally attributed to an official source. */
+  sections?: ServiceSection[];
+  faqs?: Faq[];
   tags?: string[];
   priority?: boolean;
   image: { src: string; alt: string };
 }
+
+const TV_RWC = {
+  label: "Transport Victoria: roadworthy certificate",
+  href: "https://transport.vic.gov.au/road-and-active-transport/registration-and-licensing/registration/roadworthy-certification/roadworthy-certificate",
+};
+const TV_TESTERS = {
+  label: "Transport Victoria: roadworthy tester locations",
+  href: "https://transport.vic.gov.au/road-and-active-transport/registration-and-licensing/registration/roadworthy-certification/roadworthy-tester-locations",
+};
 
 export const services: Service[] = [
   {
@@ -98,6 +151,66 @@ export const services: Service[] = [
       "If repairs are required, we quote them upfront before any work starts, so there are no surprises on the final bill.",
     ],
     priority: true,
+    seoTitle: "Roadworthy Certificate Truganina (RWC)",
+    seoDescription:
+      "Roadworthy certificate (RWC) in Truganina VIC. Memon Motors inspects your vehicle, explains the result and quotes any repairs upfront. Call 0469 042 720.",
+    sections: [
+      {
+        heading: "When you need a roadworthy certificate",
+        body: [
+          "In Victoria, a roadworthy certificate is generally required when a vehicle is sold or re-registered, with some exemptions. A passing certificate is valid for 30 days from the day it is issued, and can be used more than once within that window for registration or transfer.",
+        ],
+        source: TV_RWC,
+      },
+      {
+        heading: "What a roadworthy certificate does and doesn't cover",
+        body: [
+          "A roadworthy certificate shows that a vehicle is safe to be driven on public roads. It is not an inspection of mechanical reliability or cosmetic condition, so a car can pass and still have engine, transmission or bodywork problems.",
+        ],
+        source: TV_RWC,
+      },
+      {
+        heading: "If your vehicle doesn't pass",
+        body: [
+          "The tester gives you a written list of the defects. Victorian guidance generally allows 14 days to repair them and have the vehicle retested without paying the full inspection fee again. Ask us how retests are charged when you book.",
+          "If repairs are needed we quote them upfront, and we only start once you've said yes.",
+        ],
+        source: TV_RWC,
+      },
+      {
+        heading: "Electric and hybrid vehicles",
+        body: [
+          "From 1 September 2026, electric and hybrid vehicles may only be inspected and tested by EV testers. If you drive an electric or hybrid vehicle, check with us before booking.",
+        ],
+        source: TV_TESTERS,
+      },
+    ],
+    faqs: [
+      {
+        q: "How long is a roadworthy certificate valid in Victoria?",
+        a: "A roadworthy certificate is current for 30 days from the date it is issued. Within that window it can be used for more than one transaction, such as registration and transfer.",
+      },
+      {
+        q: "How much does a roadworthy certificate cost?",
+        a: "There is no single fixed price. The cost depends on the age, type and condition of the vehicle, so get a quote before the inspection starts. Call or WhatsApp Memon Motors with your vehicle details and we'll tell you before we begin.",
+      },
+      {
+        q: "Do I need a roadworthy certificate to sell my car in Victoria?",
+        a: "Generally, yes. A roadworthy certificate is usually required when a vehicle is sold or re-registered, although some vehicles are exempt. Check Transport Victoria's rules for your situation.",
+      },
+      {
+        q: "What happens if my car fails its roadworthy inspection?",
+        a: "You receive a written report listing the defects. Victorian guidance generally gives you 14 days to have them repaired and the vehicle retested without paying the full fee again. We quote any repair work upfront and only start once you approve it.",
+      },
+      {
+        q: "Does a roadworthy certificate mean the car is mechanically reliable?",
+        a: "No. It shows the vehicle is safe to be driven on public roads at the time of inspection. It is not a check of mechanical reliability, so it doesn't replace a proper inspection before you buy a used car.",
+      },
+      {
+        q: "Can you test an electric or hybrid vehicle?",
+        a: "From 1 September 2026, electric and hybrid vehicles may only be inspected and tested by EV testers. Contact us with your vehicle's make and model before booking and we'll tell you whether we can help.",
+      },
+    ],
     image: {
       src: "/images/roadworthy-certificate.jpg",
       alt: "A mechanic inspecting a wheel and tyre during a safety check",
@@ -112,6 +225,27 @@ export const services: Service[] = [
     description: [
       "From a routine log-book service to a check-engine light you can't ignore, our mechanics diagnose the actual problem before recommending any work.",
       "We explain what's wrong, what it costs, and why, then only start once you've said yes.",
+    ],
+    seoTitle: "Car Mechanic & Servicing Truganina",
+    seoDescription:
+      "Diagnostics, brakes, air conditioning, batteries and servicing at Memon Motors, Truganina. We explain the problem and quote first. Call 0469 042 720.",
+    faqs: [
+      {
+        q: "How do I know if my brakes need replacing?",
+        a: "Common warning signs are squealing or grinding noises, a longer stopping distance, a soft or spongy pedal, vibration when braking, or the car pulling to one side. A brake warning light also needs checking promptly. A mechanic can inspect the pads, discs and fluid and explain what's needed before any work starts.",
+      },
+      {
+        q: "What does the check engine light mean?",
+        a: "It means the car's computer has detected a fault. A steady light should be checked soon. A flashing light usually points to a serious problem such as an engine misfire, so slow down, stop somewhere safe and get the car checked rather than driving it far. Diagnostics reads the fault codes so the real cause is found before parts are replaced.",
+      },
+      {
+        q: "How often should I service my car?",
+        a: "Follow the schedule in your owner's manual or logbook. Many manufacturers specify intervals of around 6 to 12 months or 10,000 to 15,000 km, whichever comes first, but it varies by vehicle, so check yours.",
+      },
+      {
+        q: "Will you start work before I approve a quote?",
+        a: "No. We explain what's wrong and what it will cost, and only start once you've said yes.",
+      },
     ],
     image: {
       src: "/images/mechanical-repairs.jpg",
@@ -139,6 +273,19 @@ export const services: Service[] = [
       "Need a car for a few days or a few weeks? We rent well-maintained vehicles at rates our customers consistently call fair, with no inflated daily fees and no hidden extras.",
       "Call or message us with your dates and we'll confirm availability.",
     ],
+    seoTitle: "Car Rental Truganina",
+    seoDescription:
+      "Short and long-term car rental from Memon Motors in Truganina VIC. Call or WhatsApp your dates to confirm availability and rates.",
+    faqs: [
+      {
+        q: "Do you offer short and long-term car rentals?",
+        a: "Yes. Memon Motors rents vehicles for a few days or a few weeks. Call or message us with your dates and we'll confirm availability.",
+      },
+      {
+        q: "How do I check availability and rates?",
+        a: "Call 0469 042 720 or message us on WhatsApp with your pick-up and return dates. We'll confirm what's available and the rate before you commit.",
+      },
+    ],
     image: {
       src: "/images/car-rentals.jpg",
       alt: "A hand holding a car key with the rental vehicle waiting in the background",
@@ -152,6 +299,9 @@ export const services: Service[] = [
     description: [
       "Because we're mechanics first, every vehicle that passes through our hands gets inspected properly, so what you're buying (or selling) is exactly what's represented.",
     ],
+    seoTitle: "Used Car Sale & Purchase Truganina",
+    seoDescription:
+      "Buying or selling a used car in Truganina? Memon Motors is a mechanic-run workshop at 37A Dunmore Dr. Call 0469 042 720.",
     image: {
       src: "/images/vehicle-purchase-inspection.jpg",
       alt: "A mechanic inspecting a vehicle on the hoist before sale",
@@ -165,54 +315,42 @@ export const serviceBySlug = (slug: string) =>
 export interface Suburb {
   slug: string;
   name: string;
-  /** Short, genuinely specific line — not generic doorway-page filler. */
-  note: string;
+  /**
+   * Driving time (minutes) and distance (km) from the workshop to the
+   * suburb centre, plus the main roads used. Estimated 2026-10-31 with
+   * OpenStreetMap/OSRM routing (free-flow, no live traffic), so always
+   * presented as approximate. Every suburb page is differentiated by this
+   * real, checkable data rather than by swapping the suburb name.
+   */
+  driveMin: number;
+  driveKm: number;
+  via: string[];
 }
 
 export const suburbs: Suburb[] = [
-  {
-    slug: "truganina",
-    name: "Truganina",
-    note: "Our home base at 37A Dunmore Dr, a couple of minutes from Williams Landing Station.",
-  },
-  {
-    slug: "hoppers-crossing",
-    name: "Hoppers Crossing",
-    note: "A short drive down Old Geelong Rd, and one of our most regular service areas.",
-  },
-  {
-    slug: "tarneit",
-    name: "Tarneit",
-    note: "Just across the Princes Freeway from our Dunmore Dr workshop.",
-  },
-  {
-    slug: "point-cook",
-    name: "Point Cook",
-    note: "Regular RWC and rental customers come from right across Point Cook.",
-  },
-  {
-    slug: "laverton",
-    name: "Laverton",
-    note: "A quick trip up Dohertys Rd from our workshop.",
-  },
-  {
-    slug: "werribee",
-    name: "Werribee",
-    note: "We regularly handle roadworthy and mechanical work for Werribee customers.",
-  },
-  {
-    slug: "williams-landing",
-    name: "Williams Landing",
-    note: "A four-minute walk from Williams Landing Station, the closest to our workshop.",
-  },
-  {
-    slug: "wyndham-vale",
-    name: "Wyndham Vale",
-    note: "Along the Princes Freeway corridor from our Truganina workshop.",
-  },
+  { slug: "truganina", name: "Truganina", driveMin: 3, driveKm: 2.6, via: ["Dunmore Dr", "Boundary Rd"] },
+  { slug: "hoppers-crossing", name: "Hoppers Crossing", driveMin: 13, driveKm: 9.5, via: ["Forsyth Rd", "Old Geelong Rd"] },
+  { slug: "tarneit", name: "Tarneit", driveMin: 8, driveKm: 6.3, via: ["Dohertys Rd", "Morris Rd", "Leakes Rd"] },
+  { slug: "point-cook", name: "Point Cook", driveMin: 13, driveKm: 11.7, via: ["Dohertys Rd", "Palmers Rd", "Point Cook Rd"] },
+  { slug: "laverton", name: "Laverton", driveMin: 10, driveKm: 9.5, via: ["Dohertys Rd", "Palmers Rd", "Princes Fwy"] },
+  { slug: "werribee", name: "Werribee", driveMin: 18, driveKm: 14.8, via: ["Forsyth Rd", "Princes Fwy"] },
+  { slug: "williams-landing", name: "Williams Landing", driveMin: 8, driveKm: 7.2, via: ["Dohertys Rd", "Palmers Rd"] },
+  { slug: "wyndham-vale", name: "Wyndham Vale", driveMin: 22, driveKm: 19.7, via: ["Dohertys Rd", "Derrimut Rd", "Tarneit Rd", "Ballan Rd"] },
 ];
 
 export const suburbBySlug = (slug: string) => suburbs.find((s) => s.slug === slug);
+
+/** Short factual line used on suburb cards and pages. */
+export const suburbNote = (s: Suburb) =>
+  s.slug === "truganina"
+    ? `Our workshop is at ${business.address.street} in Truganina, about ${s.driveMin} minutes by road from the suburb centre.`
+    : `About ${s.driveMin} minutes by road from ${s.name}.`;
+
+/** Google Maps directions from a suburb to the workshop. */
+export const directionsFromHref = (s: Suburb) =>
+  `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(`${s.name} VIC`)}&destination=${encodeURIComponent(
+    `${business.name} ${business.address.street} ${business.address.suburb} ${business.address.state} ${business.address.postcode}`
+  )}`;
 
 export interface Review {
   author: string;

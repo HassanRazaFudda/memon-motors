@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema } from "@/lib/schema";
-import { suburbs } from "@/lib/business";
+import { suburbNote, suburbs } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Areas we serve",
+  title: "Areas We Serve around Truganina",
   description:
-    "Memon Motors serves Truganina, Hoppers Crossing, Tarneit, Point Cook, Laverton, Werribee, Williams Landing and Wyndham Vale.",
+    "See drive times to Memon Motors, 37A Dunmore Dr, Truganina, from Tarneit, Williams Landing, Laverton, Hoppers Crossing, Point Cook and Werribee.",
 };
 
 export default function AreasPage() {
@@ -39,7 +39,7 @@ export default function AreasPage() {
                   {suburb.name}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                  {suburb.note}
+                  {suburbNote(suburb)}
                 </p>
               </Link>
             </li>

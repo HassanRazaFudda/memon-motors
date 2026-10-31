@@ -14,7 +14,9 @@ Full research is in `business-info.md` (project root) — read it for sourcing/c
 - **Proprietor**: Muhammad Sadiq (named on the business card; matches "Sadiq" praised throughout reviews).
 - **Address — resolved**: confirmed as **37A Dunmore Dr, Truganina VIC 3029** by the owner's business card (agrees with Google Maps/RepairBook). Treat 40/20 Prosperity St (Birdeye/Facebook/Wheree/Dealwala) as the outdated address — do not use it.
 - **Still unresolved — confirm with the business owner before publishing**:
-  - Hours vary slightly by source (Birdeye vs Dealwala Saturday hours differ) — confirm final hours.
+  - Hours: the owner's Google Business Profile shows Mon–Fri 9am–5:30pm, Sat 1–3pm, Sun closed (read 2026-10-31) and `src/lib/business.ts` now matches it. Third-party directories still say 6pm; have the owner confirm, and keep the GBP and `hours` in sync.
+  - Roadworthy certificates can only be issued by a licensed vehicle tester. The owner's licence status/number is **not confirmed**, so the site makes no licence claim. Ask before publishing one.
+- **Local-SEO work (2026-10-31)**: audit, keyword research, competitor map, GBP/citation plan and 30/60/90 roadmap are in `docs/seo/` (start with `01-audit.md`). Canonical host is `https://www.memonmotors.com` (set in `src/lib/schema.ts`); the workshop pin is the GBP's `-37.8181805, 144.738346`. Suburb pages are differentiated by measured drive time/distance in `business.ts`. Never reintroduce unverified local claims (station walking times, "regular customers from X", "since 2020", "family-run").
   - A "$36,200 Victorian government grant" mention is unverified — do not publish it without confirmation.
 
 ## Brand Assets (from the owner's business card — see `business-info.md` §0)
@@ -32,7 +34,7 @@ Full research is in `business-info.md` (project root) — read it for sourcing/c
 
 ## Tech Stack
 
-- **Framework**: Next.js **16.4.0** (App Router), already scaffolded in this repo — do not downgrade or switch to Pages Router.
+- **Framework**: Next.js **16.4.3** (App Router), already scaffolded in this repo — do not downgrade (16.0.0–16.4.0 carry two critical RCE advisories and one high DoS advisory) or switch to Pages Router.
 - **React**: 19.3.0
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4

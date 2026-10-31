@@ -7,14 +7,15 @@ import {
   formatHourRange,
   fullAddress,
   hours,
+  hoursSummary,
   mapsHref,
   telHref,
   whatsappHref,
 } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: `Call, WhatsApp or visit Memon Motors at ${fullAddress}.`,
+  title: "Contact & Directions, Truganina Mechanic",
+  description: `Call ${business.phoneDisplay}, WhatsApp or visit Memon Motors at ${fullAddress}. ${hoursSummary()}.`,
 };
 
 export default function ContactPage() {

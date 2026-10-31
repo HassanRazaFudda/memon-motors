@@ -100,8 +100,8 @@ export function Hero() {
 
           <p className="mt-7 max-w-xl text-lg text-ink-soft sm:text-xl">
             Roadworthy certificates, mechanical repairs, car rentals and
-            vehicle sales in Truganina, serving Melbourne&apos;s western
-            suburbs since 2020.
+            vehicle sales from one Truganina workshop, serving Melbourne&apos;s
+            western suburbs.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -112,7 +112,7 @@ export function Hero() {
               <span className="text-sm leading-tight text-ink-soft">
                 ★ rating
                 <br />
-                {business.rating.count}+ Google reviews
+                {business.rating.countLabel} Google reviews
               </span>
             </div>
           </div>

@@ -6,27 +6,33 @@ import { Footer } from "@/components/layout/footer";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { PageTransitionOverlay } from "@/components/providers/page-transition-overlay";
 import { JsonLd } from "@/components/json-ld";
-import { localBusinessSchema, SITE } from "@/lib/schema";
-import { business, fullAddress } from "@/lib/business";
+import { localBusinessSchema, websiteSchema, SITE } from "@/lib/schema";
+import { business } from "@/lib/business";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
+  // "./" resolves per-route against metadataBase, so every page gets its own
+  // self-referencing canonical on the one preferred host.
+  alternates: { canonical: "./" },
   title: {
-    default: `${business.name} | ${business.tagline}`,
+    default: `Truganina Mechanic, Roadworthy & Car Rental | ${business.name}`,
     template: `%s | ${business.name}`,
   },
-  description: `Roadworthy certificates, mechanical repairs, car rentals and vehicle sales in Truganina VIC. Rated ${business.rating.value}★ from ${business.rating.count}+ Google reviews. ${fullAddress}.`,
+  description: `Roadworthy certificates, mechanical repairs, car rentals and vehicle sales from one Truganina workshop. ${business.rating.value}★ from ${business.rating.countLabel} Google reviews. Call ${business.phoneDisplay}.`,
   icons: {
     icon: "/favicon-logo.png",
     apple: "/favicon-logo.png",
   },
   openGraph: {
     type: "website",
+    locale: "en_AU",
     siteName: business.name,
     title: `${business.name} | ${business.tagline}`,
-    description: business.servicesLine,
+    description: `Roadworthy certificates, mechanical repairs, car rentals and vehicle sales in Truganina VIC. ${business.rating.value}★ from ${business.rating.countLabel} Google reviews.`,
     url: SITE.url,
+    images: [{ url: "/logo.png", width: 1254, height: 1254, alt: `${business.name} logo` }],
   },
+  twitter: { card: "summary" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -50,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col">
         <JsonLd data={localBusinessSchema()} />
+        <JsonLd data={websiteSchema()} />
         <PageTransitionOverlay />
         <SmoothScrollProvider>
           <Header />

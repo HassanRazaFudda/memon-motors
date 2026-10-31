@@ -9,8 +9,8 @@ import { breadcrumbSchema } from "@/lib/schema";
 import { business } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "About",
-  description: `${business.name} is a family-run auto workshop in Truganina VIC, offering roadworthy certificates, mechanical repairs, car rentals and vehicle sales.`,
+  title: "About Our Truganina Workshop",
+  description: `${business.name} is a Truganina auto workshop operated by ${business.legalName}, offering roadworthy certificates, mechanical repairs, car rentals and vehicle sales.`,
 };
 
 export default function AboutPage() {
@@ -31,11 +31,10 @@ export default function AboutPage() {
         <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_420px] lg:items-start">
           <Reveal as="div" className="max-w-2xl space-y-5">
             <p className="text-[17px] leading-relaxed text-ink-soft">
-              Memon Motors has operated out of Truganina since 2020, under the
-              trading name of ZHS Gadar Pty Ltd. What started as a workshop
-              doing roadworthy certificates and mechanical repairs has grown
-              to cover car rentals and vehicle sales too, all from the same
-              team, at the same address.
+              Memon Motors is a Truganina workshop operated by ZHS Gadar Pty
+              Ltd (ABN {business.abn}), a registered Australian company. One
+              team handles roadworthy certificates, mechanical repairs, car
+              rentals and vehicle sales from {business.address.street}.
             </p>
             <p className="text-[17px] leading-relaxed text-ink-soft">
               The thing customers mention most isn&apos;t a specific repair.

@@ -1,6 +1,8 @@
-import { business, hours } from "@/lib/business";
+import { business, hours, services, suburbs, type Service } from "@/lib/business";
 
-const SITE_URL = "https://memonmotors.com";
+const SITE_URL = "https://www.memonmotors.com";
+const BUSINESS_ID = `${SITE_URL}/#business`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
 
 const openingHoursSpecification = hours
   .filter((h) => h.open && h.close)
@@ -11,25 +13,35 @@ const openingHoursSpecification = hours
     closes: h.close,
   }));
 
+const areaServed = suburbs.map((s) => ({ "@type": "City", name: s.name }));
+
 /**
- * Base LocalBusiness/AutoRepair node, reused on every page. Pass
- * `areaServed` on suburb pages to scope it to that suburb — see
- * CLAUDE.md "Functional Requirements" on why this is the single
- * highest-leverage SEO move for this project.
+ * Full AutoRepair node (a LocalBusiness subtype). Emitted once, by the root
+ * layout, so every page carries exactly one `aggregateRating` — a second
+ * copy on the same page makes Google flag "Review has multiple aggregate
+ * ratings". Everything else refers to this node by `@id` instead of
+ * repeating it.
+ *
+ * Only facts that are verified or visible on the page go in here: no
+ * `priceRange` (an unverified guess), and ratings mirror what the Google
+ * Business Profile shows. Note Google does not show review stars for a
+ * business's own LocalBusiness markup, so this is for entity understanding,
+ * not a rich-result promise.
  */
-export function localBusinessSchema(areaServed?: string) {
+export function localBusinessSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "AutoRepair",
-    "@id": `${SITE_URL}/#business`,
+    "@id": BUSINESS_ID,
     name: business.name,
     alternateName: business.legalName,
+    description:
+      "Roadworthy certificates, mechanical repairs, car rentals and vehicle sales from one workshop in Truganina, Victoria.",
     image: `${SITE_URL}/logo.png`,
     logo: `${SITE_URL}/logo.png`,
     url: SITE_URL,
     telephone: business.phoneE164,
     email: business.email,
-    priceRange: "$$",
     address: {
       "@type": "PostalAddress",
       streetAddress: business.address.street,
@@ -43,13 +55,71 @@ export function localBusinessSchema(areaServed?: string) {
       latitude: business.geo.lat,
       longitude: business.geo.lng,
     },
+    hasMap: business.mapsListingUrl,
+    sameAs: [business.facebookUrl, business.mapsListingUrl],
     openingHoursSpecification,
+    paymentAccepted: business.paymentAccepted,
+    areaServed,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Services",
+      itemListElement: services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: s.name,
+          url: `${SITE_URL}/services/${s.slug}`,
+        },
+      })),
+    },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: business.rating.value,
       reviewCount: business.rating.count,
+      bestRating: 5,
     },
-    ...(areaServed ? { areaServed: { "@type": "City", name: areaServed } } : {}),
+  };
+}
+
+/** Site-level node so search engines can resolve the site name and tie it to the business. */
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    url: SITE_URL,
+    name: business.name,
+    inLanguage: "en-AU",
+    publisher: { "@id": BUSINESS_ID },
+  };
+}
+
+/** A service page's Service node, linked to the business by `@id` rather than a new unlinked copy. */
+export function serviceSchema(service: Service) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE_URL}/services/${service.slug}#service`,
+    name: service.name,
+    description: service.summary,
+    url: `${SITE_URL}/services/${service.slug}`,
+    provider: { "@id": BUSINESS_ID },
+    areaServed,
+  };
+}
+
+/**
+ * Suburb-scoped `areaServed`, linked to the business by `@id` rather than
+ * repeating the full node, so no suburb page ever has two ratings. See
+ * CLAUDE.md "Functional Requirements" on why suburb-specific areaServed is
+ * the highest-leverage SEO move for this project.
+ */
+export function suburbAreaSchema(areaName: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "@id": BUSINESS_ID,
+    areaServed: { "@type": "City", name: areaName },
   };
 }
 

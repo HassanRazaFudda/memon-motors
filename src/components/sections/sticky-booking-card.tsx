@@ -51,7 +51,7 @@ export function StickyBookingCard() {
       </div>
 
       <p className="mt-2 text-sm text-ink-soft">
-        {business.rating.value}★ from {business.rating.count}+ Google reviews.
+        {business.rating.value}★ from {business.rating.countLabel} Google reviews.
       </p>
 
       <div className="mt-5 flex flex-col gap-3">

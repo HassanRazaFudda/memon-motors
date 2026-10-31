@@ -5,9 +5,40 @@ import { ServicesGrid } from "@/components/sections/services-grid";
 import { HostCard } from "@/components/sections/host-card";
 import { ReviewsSection } from "@/components/sections/reviews-section";
 import { SuburbLinks } from "@/components/sections/suburb-links";
+import { FaqSection } from "@/components/sections/faq-section";
 import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
-import { telHref, whatsappHref } from "@/lib/business";
+import {
+  business,
+  fullAddress,
+  hoursSummary,
+  suburbs,
+  telHref,
+  whatsappHref,
+  type Faq,
+} from "@/lib/business";
+
+// Built from the business data so the answers can't drift from the facts.
+const homeFaqs: Faq[] = [
+  {
+    q: "What does Memon Motors do?",
+    a: `Memon Motors is a Truganina workshop that handles roadworthy certificates, mechanical repairs and servicing, car rentals, and vehicle sale and purchase, all from one site at ${fullAddress}.`,
+  },
+  {
+    q: "Where is Memon Motors and when is it open?",
+    a: `${fullAddress}. Open ${hoursSummary()}. Appointments are recommended, so call ${business.phoneDisplay} before you come.`,
+  },
+  {
+    q: "How do I book a roadworthy certificate, repair or rental?",
+    a: `Call ${business.phoneDisplay}, message us on WhatsApp, or use the booking bar at the top of this page. We'll confirm a time with you.`,
+  },
+  {
+    q: "Which suburbs do you serve?",
+    a: `We're based in Truganina and customers come from across Melbourne's west. Approximate driving times from our workshop: ${suburbs
+      .map((s) => `${s.name} about ${s.driveMin} minutes`)
+      .join(", ")}.`,
+  },
+];
 
 export default function HomePage() {
   return (
@@ -71,6 +102,15 @@ export default function HomePage() {
         <div className="mt-8">
           <SuburbLinks />
         </div>
+      </section>
+
+      <section className="w-full px-6 py-20 sm:px-10 sm:py-28 xl:px-16">
+        <FaqSection
+          faqs={homeFaqs}
+          id="home-faq"
+          heading="Common questions."
+          headingClassName="font-display text-3xl font-black tracking-tight text-ink sm:text-4xl"
+        />
       </section>
 
       <section className="bg-surface py-20 text-ink sm:py-28">

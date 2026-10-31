@@ -27,7 +27,7 @@ export function ReviewsSection({ limit }: { limit?: number }) {
           ))}
         </div>
         <p className="mt-2 text-sm text-muted">
-          Based on <span className="font-bold text-ink">{business.rating.count}+ reviews</span>
+          Based on <span className="font-bold text-ink">{business.rating.countLabel} reviews</span>
         </p>
         <GoogleWordmark className="mt-2 inline-block font-display text-xl font-bold" />
       </div>

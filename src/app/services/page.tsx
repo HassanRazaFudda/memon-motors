@@ -5,9 +5,9 @@ import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Mechanic, Roadworthy, Rentals & Sales",
   description:
-    "Roadworthy certificates, mechanical repairs, car rentals and vehicle sales at Memon Motors, Truganina VIC.",
+    "Roadworthy certificates, mechanical repairs and servicing, car rentals and vehicle sale & purchase at Memon Motors, 37A Dunmore Dr, Truganina VIC.",
 };
 
 export default function ServicesPage() {
