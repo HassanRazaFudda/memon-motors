@@ -109,6 +109,7 @@ export function Footer() {
             )}&z=15&output=embed`}
             width="100%"
             height="280"
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="block"
           />
