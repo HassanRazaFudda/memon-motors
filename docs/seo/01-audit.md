@@ -2,7 +2,7 @@
 
 Audit date: 31 Oct 2026. Site audited: https://www.memonmotors.com (live, pre-change baseline) and the local production build of the changes in this branch.
 
-**Status key:** DONE = changed in code and verified on a local production build (not yet deployed unless stated). PENDING = needs a deploy, a dashboard change, or an answer from the owner.
+**Status key:** DONE = changed in code, deployed (`7274a8a` on 31 Oct 2026, `27b9860` on 1 Nov 2026) and re-checked on the live site on 1 Nov 2026 (all 18 sitemap URLs have a self-referencing www canonical and exactly one `aggregateRating`). PENDING = needs a dashboard change or an answer from the owner.
 
 ## How this audit was done, and its limits
 
@@ -22,11 +22,11 @@ Audit date: 31 Oct 2026. Site audited: https://www.memonmotors.com (live, pre-ch
 
 | # | Issue | Impact | Evidence | Status |
 |---|---|---|---|---|
-| C1 | **Hours on the site were wrong.** Site said Mon–Fri to 6pm. Google Business Profile says 9am–5:30pm. | Customers arrive after close; NAP mismatch | GBP read 31 Oct 2026 | DONE in code (`hours` in `business.ts`). PENDING deploy. Owner to confirm |
-| C2 | **Published local claims were false.** "A four-minute walk from Williams Landing Station", "a couple of minutes from Williams Landing Station", "just across the Princes Freeway" (Tarneit). | Misleads customers, damages trust and E-E-A-T | Station is 7.2 km / 8 min **drive** from the workshop (OSM routing) | DONE: replaced with measured drive times. PENDING deploy |
+| C1 | **Hours on the site were wrong.** Site said Mon–Fri to 6pm. Google Business Profile says 9am–5:30pm. | Customers arrive after close; NAP mismatch | GBP read 31 Oct 2026 | DONE (`hours` in `business.ts`, deployed). PENDING owner confirmation |
+| C2 | **Published local claims were false.** "A four-minute walk from Williams Landing Station", "a couple of minutes from Williams Landing Station", "just across the Princes Freeway" (Tarneit). | Misleads customers, damages trust and E-E-A-T | Station is 7.2 km / 8 min **drive** from the workshop (OSM routing) | DONE: replaced with measured drive times (deployed) |
 | C3 | **Unverified brand claims** on the site: "family-run", "serving the western suburbs since 2020", "regular customers from Point Cook/Werribee". | Breaks the project's honesty rule | Not in `business-info.md` | DONE: removed or replaced with verified wording |
 | C4 | **Schema geo was ~2 km off.** `144.7167` vs the real pin `144.7383`. | Wrong map location in structured data | GBP pin `-37.8181805, 144.738346` | DONE |
-| C5 | **No canonical tags, and www and apex both served 200.** | Duplicate-host signals; Search Console property is www while schema/sitemap said apex | Crawl | DONE in code (canonical on all pages, www everywhere). PENDING Coolify redirect apex→www |
+| C5 | **No canonical tags, and www and apex both served 200.** | Duplicate-host signals; Search Console property is www while schema/sitemap said apex | Crawl | DONE (canonical on all pages, www everywhere, apex→www redirect set in Coolify; Google-selected canonical for the home page matches, seen in Search Console 1 Nov 2026) |
 | C6 | **Two `aggregateRating`s on every suburb page.** | Search Console "Review has multiple aggregate ratings" | GSC screenshot | DONE (1 per page on all 18 pages, verified) |
 | C7 | **Old addresses live on third-party listings.** MapQuest "20 Prosperity St", Dealwala "40/20 Prosperity St", Localsearch "40 20 Prosperity St", Facebook shows "Hoppers Crossing". | Split citations, confuses Google and AI engines | Seen in Google results 31 Oct 2026 | PENDING (owner/listing claims, see `03-local-gbp-citations.md`) |
 | C8 | **Roadworthy licence not shown.** A roadworthy certificate can only be issued by a licensed vehicle tester. The site never states Memon Motors' licence. Rival Friends Auto Solutions shows its LVT number. | Biggest trust gap on the highest-intent page | Competitor audit | PENDING owner input. Not verified, so nothing was claimed |
@@ -62,14 +62,14 @@ Eight suburb pages is the most aggressive part of the architecture. Each page no
 | Area | Finding | Status |
 |---|---|---|
 | HTTPS | Valid certificate, http→https works, no mixed content, no HSTS | OK. HSTS optional |
-| http→https redirect | Returns **307 (temporary)** rather than 301/308 | PENDING (Traefik/Coolify setting) |
-| www vs apex | Both serve 200 independently | PENDING Coolify "redirect to www" |
+| http→https redirect | Was **307 (temporary)**. Redirect type now Permanent: every http and apex variant returns **301** (checked with `curl`, 1 Nov 2026). The apex takes two hops (http→https, then apex→www), which is acceptable | DONE |
+| www vs apex | Both served 200 independently. Now `memonmotors.com` 301s to `www.memonmotors.com` (Coolify "non-www → www") | DONE |
 | Indexing | Home, About and Areas already indexed (seen in Google, 31 Oct) | OK |
 | GSC "Page is not served over HTTPS" | Info-level, reflects Google's last crawl. HTTPS verified working | Re-test live URL after deploy |
 | Structured data | One `AutoRepair` node per page, valid JSON-LD on all 14 pages checked | DONE |
 | `priceRange: "$$"` | Unverified guess in schema | DONE: removed |
 | Core Web Vitals | **Not measured.** PageSpeed quota exhausted, no field data yet | PENDING: run PageSpeed Insights manually |
-| Next.js | Was 16.4.0 with 2 critical RCE and 1 high DoS advisories | DONE: 16.4.3. PENDING deploy |
+| Next.js | Was 16.4.0 with 2 critical RCE and 1 high DoS advisories | DONE: 16.4.3, deployed |
 | Conversion tracking | **None installed** (no GA4/GTM) | PENDING: needs a GA4 measurement ID |
 | Page weight | Home 87 KB HTML, 9 images, 1.0–1.6 s from this machine | Acceptable |
 

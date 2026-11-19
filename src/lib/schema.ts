@@ -36,7 +36,7 @@ export function localBusinessSchema() {
     name: business.name,
     alternateName: business.legalName,
     description:
-      "Roadworthy certificates, mechanical repairs, car rentals and vehicle sales from one workshop in Truganina, Victoria.",
+      "Car servicing, brake, suspension and engine repairs, tyres and roadworthy certificates for European, Japanese and everyday cars, from one workshop in Truganina, Victoria.",
     image: `${SITE_URL}/logo.png`,
     logo: `${SITE_URL}/logo.png`,
     url: SITE_URL,

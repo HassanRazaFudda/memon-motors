@@ -1,5 +1,7 @@
 # Keyword research, competitors and content plan
 
+> **Partly superseded (19 Nov 2026):** the business no longer offers car rentals or vehicle sale/purchase. Rental and sales keywords, pages and the "own the rental + repair + RWC combination" advice below are retired. The current repair-focused plan is `docs/strategy/02-website-seo-aeo-geo.md`. The data-source notes and the October baseline below remain valid as history.
+
 Data gathered 31 Oct 2026. Read `01-audit.md` first for sources and limits. **Search volumes and keyword difficulty were not obtainable without paid tools or a Google Ads account, so none are quoted.** Evidence tiers used below:
 
 - **A** = phrase appears in Google AU autocomplete (people really type it) **and** a competitor ranks for it in the live SERP.

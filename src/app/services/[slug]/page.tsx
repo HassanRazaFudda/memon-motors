@@ -56,16 +56,18 @@ export default async function ServiceDetailPage(
           <span className="text-ink">{service.shortName}</span>
         </nav>
 
-        <div className="relative mb-10 aspect-[21/9] overflow-hidden rounded-md">
-          <Image
-            src={service.image.src}
-            alt={service.image.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
+        {service.image && (
+          <div className="relative mb-10 aspect-[21/9] overflow-hidden rounded-md">
+            <Image
+              src={service.image.src}
+              alt={service.image.alt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+        )}
 
         <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
           <div>

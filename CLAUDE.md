@@ -6,9 +6,10 @@ Project instructions for any coding agent (Claude Code) working in this repo. Re
 
 Full research is in `business-info.md` (project root) — read it for sourcing/citations. Summary relevant to the build:
 
-- **Who**: Memon Motors (legal entity ZHS GADAR PTY LTD, ABN 67 646 402 379), auto repair + RWC (Roadworthy Certificate) + mechanical servicing + car rentals + vehicle sale/purchase, Truganina VIC (western Melbourne suburbs).
+- **Who**: Memon Motors (legal entity ZHS GADAR PTY LTD, ABN 67 646 402 379), car repair and mechanical workshop: servicing, RWC (Roadworthy Certificate), brake/suspension/engine repairs, tyres, European and Japanese cars, Truganina VIC (western Melbourne suburbs).
+- **Repositioned 2026-11-19 (owner's request)**: car rentals and vehicle sale/purchase are **no longer offered**. Never reintroduce them in copy, schema, ads or the GBP plan; `/services/car-rentals` and `/services/vehicle-sales` 308 to `/services` (`next.config.ts`). The strategy (positioning, competitors, keyword map, social/video concepts, paid ads, roadmap) is in `docs/strategy/` (start with `01-positioning-and-competitors.md`). Service facts not yet confirmed by the owner (LVT licence, tyre scope, wheel alignment, named makes, diagnostic tools, logbook stamping, AC/ARC licence, warranty) stay phrased as "ask us" — see the owner question list in `docs/strategy/01` §5.
 - **Reputation**: 4.9★ across 100+ reviews (Google, Birdeye, RepairBook). Currently **zero official website** — the whole gap this project exists to close. All traffic today comes from Google Maps/directories and word-of-mouth.
-- **What customers praise**: fair/reasonable/honest pricing, manager **Sadiq**'s customer service, cheaper than other shops in the area, good car-rental experience.
+- **What customers praise**: fair/reasonable/honest pricing, manager **Sadiq**'s customer service, cheaper than other shops in the area (rental reviews exist on Google but are no longer quoted on the site).
 - **Service area**: Truganina, Hoppers Crossing, Tarneit, Point Cook, Laverton (from the business's own Facebook page), plus the broader western-suburbs corridor (Werribee, Williams Landing, Wyndham Vale) used by the direct competitor for local SEO.
 - **Positioning — revised 2026-10-08**: affordable and honest in substance (copy, pricing language, real reviews, no fabricated claims), but the *visual* brand has deliberately shifted to upscale/premium-automotive. The owner reviewed the first build and judged it too basic/generic for 2026 and explicitly chose a luxury-atelier direction over "elevate craft, stay soft" — see Design System below. Content stays honest; the skin goes cinematic.
 - **Proprietor**: Muhammad Sadiq (named on the business card; matches "Sadiq" praised throughout reviews).
@@ -23,18 +24,18 @@ Full research is in `business-info.md` (project root) — read it for sourcing/c
 
 - **Logo**: gold metallic winged "M" emblem in a circular badge on black. **Resolved** — a clean, high-res (1254×1254), transparent-background PNG is saved at `public/logo.png`. Use it as-is sitewide (header, footer, favicon source). Do not substitute a generic icon or regenerate a new "M" mark. For the favicon specifically, generate a square-cropped/padded version from this file (the wings make the source non-square) rather than stretching it.
 - **Tagline**: "The Name You Can Trust" — use in the hero and `<title>`/meta description.
-- **Owner's own services line**: "Deals in Car Rentals, Buy & Sale and Repairs" — good source wording for hero subcopy.
+- **Owner's own services line**: the card says "Deals in Car Rentals, Buy & Sale and Repairs" — **superseded** by the 2026-11-19 repositioning; the site uses `business.servicesLine` ("Car servicing, repairs, tyres and roadworthy certificates").
 - **Card's visual identity**: black background, red ribbon/accent (used on the business name band and to highlight "CAR"), gold badge, moody dark showroom car photography.
 
 ## Competitive Benchmark
 
-- **Friends Auto Solutions** (friendsautosolutions.co.uk — actually `.com.au`) is the direct local competitor: same suburb, same service mix (RWC + mechanical + rentals), 635 reviews, has the website Memon Motors lacks. Use its information architecture as the closest real-world template: Home → Car Repairs → Roadworthy Certificates → Car/Courier Rentals → Other Services → Contact, each service page targeting its own suburb list for local SEO.
+- **Friends Auto Solutions** (friendsautosolutions.co.uk — actually `.com.au`) is the direct local competitor: same suburb, same service mix (RWC + mechanical + rentals), 635 reviews, has the website Memon Motors lacks. Use its information architecture as the closest real-world template: Home → Car Repairs → Roadworthy Certificates → Other Services → Contact (skip its rentals section; Memon no longer offers rentals), each service page targeting its own suburb list for local SEO.
 - **Lube Mobile** pattern worth copying functionally: postcode/suburb entry up front, itemised/upfront quoting language, visible warranty terms, FAQ block that pre-answers pricing/timing objections.
 - **Do not copy** Forge Automotive (forgeautomotive.co.uk) or BMW/Ferrari/Lamborghini/Bugatti-style dark cinematic "luxury atelier" skins. That visual language signals expensive/exclusive and directly undermines Memon Motors' actual selling point (affordable, honest pricing). Borrow motion technique from sites like that — never the color/mood.
 
 ## Tech Stack
 
-- **Framework**: Next.js **16.4.3** (App Router), already scaffolded in this repo — do not downgrade (16.0.0–16.4.0 carry two critical RCE advisories and one high DoS advisory) or switch to Pages Router.
+- **Framework**: Next.js **16.4.6** (App Router), already scaffolded in this repo — do not downgrade (16.0.0–16.4.0 carry two critical RCE advisories and one high DoS advisory; ≤16.4.4 carries two moderate `use cache` advisories that make `next build` fail) or switch to Pages Router.
 - **React**: 19.3.0
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
@@ -73,7 +74,7 @@ Full research is in `business-info.md` (project root) — read it for sourcing/c
 
 **Logo exception**: `public/logo.png` (the gold winged-M badge) keeps its own circular/organic shape regardless of the `0px` radius rule — it's the one pre-existing brand asset, not a UI component this system generates.
 
-**Photography is now the primary depth mechanism**, per BMW M's own philosophy ("the system has no decorative voltage of its own — energy comes from full-bleed photography"). Use the real workshop photos (`public/images/*.jpg`) full-bleed wherever possible — hero background, section dividers, card imagery — not as small inset thumbnails. No drop shadows anywhere; elevation reads only via `surface-card`/`surface-elevated` tone steps and photographic lighting.
+**Photography is now the primary depth mechanism**, per BMW M's own philosophy ("the system has no decorative voltage of its own — energy comes from full-bleed photography"). **Every photo in `public/images/*.jpg` is licensed stock, not Memon's workshop** (the hero shows a Renault dealership with Turkish plates). Use them full-bleed, but alt text must describe the picture and never claim it is Memon Motors; replace them with real workshop photos as soon as the owner supplies them (top brand priority, see `docs/strategy/03` §7). Services without a fitting photo render as text cards (`image` is optional on `Service`). Use photos full-bleed wherever possible — hero background, section dividers, card imagery — not as small inset thumbnails. No drop shadows anywhere; elevation reads only via `surface-card`/`surface-elevated` tone steps and photographic lighting.
 
 **No page-width cap.** First tried capping the page at `max-w-7xl` (1280px), widened to a custom 1680px container when called out as reading dated/boxed — still wasn't enough on a normal 1920px monitor, which left a ~120px dead margin each side. The cap is removed entirely now: every section is `w-full` with only responsive gutter padding (`px-6 sm:px-10 xl:px-16`), no centered max-width box anywhere. If a future page needs a long-form text column (like About's intro paragraphs), constrain *that specific text block* with its own `max-w-2xl`/`max-w-3xl` — don't reintroduce a page-level width cap to solve a line-length problem.
 
@@ -113,10 +114,10 @@ What those reference sites are actually doing (confirmed by inspection, not gues
 
 Modeled on Friends Auto Solutions' structure + local-SEO pattern, populated with Memon Motors' real info from `business-info.md`:
 
-1. **Home** — hero (pinned-zoom workshop/car photo), quick-booking bar (suburb → service → time), trust block (4.9★ / 100+ reviews, loud per DESIGN.md's rating-display treatment), service cards (RWC, Mechanical Repairs & Diagnostics, Car Rentals, Vehicle Sale & Purchase), "Meet Sadiq" trust card, real review excerpts, suburb links, sticky contact/booking card, footer with hours/address/phone/WhatsApp/Google Maps embed.
-2. **Services** — overview page + one detail page per service (RWC, Mechanical Repairs incl. the RepairBook tag list: diagnostics, AC/heating, battery, brakes, check-engine-light, oil change, powertrain/engine, scheduled maintenance, steering/suspension; Car Rentals; Vehicle Sales).
+1. **Home** — hero (pinned-zoom workshop/car photo), quick-booking bar (suburb → service → time), trust block (4.9★ / 100+ reviews, loud per DESIGN.md's rating-display treatment), service cards (all nine services from `services` in `business.ts`), "Meet Sadiq" trust card, real review excerpts, suburb links, sticky contact/booking card, footer with hours/address/phone/WhatsApp/Google Maps embed.
+2. **Services** — overview page + one detail page per service (RWC, Car Servicing, Brake Repairs, European Cars, Mechanical Repairs & Diagnostics, Engine Repairs, Suspension & Steering, Car Tyres, Japanese Cars — defined once in `src/lib/business.ts`).
 3. **Roadworthy Certificates (RWC)** — dedicated page (this is Friends Auto Solutions' top SEO target and should be Memon Motors' too): what it is, turnaround time, price-from if available, same-day messaging if true.
-4. **Car Rentals** — dedicated page.
+4. ~~Car Rentals~~ — removed 2026-11-19 (business no longer offers rentals).
 5. **Suburb pages** (local SEO, one per service area): Truganina, Point Cook, Tarneit, Hoppers Crossing, Werribee, Williams Landing, Wyndham Vale, Laverton — each a thin, genuinely useful page (not doorway-page spam): "Mechanic in [Suburb]" with the same trust block + a map + driving-distance framing.
 6. **About** — business story, Sadiq, the honest-pricing positioning backed by real review quotes.
 7. **Pricing/Transparency block** — reusable component (not necessarily a full page): itemised-quote promise, "no work without approval" language, similar trust mechanism to Lube Mobile's pricing FAQ. Do not publish specific $ figures that were not confirmed by the business owner.
@@ -135,7 +136,7 @@ Modeled on Friends Auto Solutions' structure + local-SEO pattern, populated with
 ## Non-Goals / Anti-Patterns
 
 - **Reversed 2026-10-08**: the v1 rule against Forge-Automotive-style full-page dark cinematic treatment is gone — that is now explicitly the target register (see Design System v2 above). Full-bleed dark photography, confident/exclusive-sounding headline copy, and a luxury-atelier page feel are all correct now.
-- Still **not** correct: literal exotic-car *stock photography* (Ferrari/Lamborghini/BMW-badge imagery) — the dark/premium treatment applies to layout, type, color, and motion, not to pretending the business sells supercars. Keep using the real Memon Motors workshop photos (`public/images/*.jpg`) as the full-bleed subject matter; the cinematic treatment comes from how those real photos are framed/lit/cropped, not from substituting stock exotic cars.
+- Still **not** correct: literal exotic-car *stock photography* (Ferrari/Lamborghini/BMW-badge imagery) — the dark/premium treatment applies to layout, type, color, and motion, not to pretending the business sells supercars. Use real Memon Motors workshop photos as the full-bleed subject matter once they exist (the current `public/images/*.jpg` are generic stock workshop shots, a stopgap); the cinematic treatment comes from how photos are framed/lit/cropped, not from substituting stock exotic cars.
 - No generic AI-purple/pink gradients.
 - No heavy pre-loader/splash screen gating first paint.
 - No invented pricing, grant claims, awards, review content, or exclusivity claims not backed by `business-info.md` — the visual register changed, the honesty constraint did not. Confident/premium copy is fine; fabricated copy is not.

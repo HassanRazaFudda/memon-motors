@@ -30,7 +30,7 @@ export async function generateMetadata(
 
   return {
     title: `Mechanic & Roadworthy in ${suburb.name}`,
-    description: `Roadworthy certificates, mechanical repairs and car rentals for ${suburb.name} customers. About ${suburb.driveMin} minutes by road from Memon Motors in Truganina.`,
+    description: `Car servicing, repairs, tyres and roadworthy certificates for ${suburb.name} drivers. About ${suburb.driveMin} minutes by road from Memon Motors in Truganina.`,
   };
 }
 

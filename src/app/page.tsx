@@ -22,14 +22,14 @@ import {
 const homeFaqs: Faq[] = [
   {
     q: "What does Memon Motors do?",
-    a: `Memon Motors is a Truganina workshop that handles roadworthy certificates, mechanical repairs and servicing, car rentals, and vehicle sale and purchase, all from one site at ${fullAddress}.`,
+    a: `Memon Motors is a car repair and servicing workshop at ${fullAddress}. We handle car servicing, roadworthy certificates, brake, suspension and engine repairs, diagnostics and tyres, for European, Japanese and everyday cars.`,
   },
   {
     q: "Where is Memon Motors and when is it open?",
     a: `${fullAddress}. Open ${hoursSummary()}. Appointments are recommended, so call ${business.phoneDisplay} before you come.`,
   },
   {
-    q: "How do I book a roadworthy certificate, repair or rental?",
+    q: "How do I book a service, repair or roadworthy?",
     a: `Call ${business.phoneDisplay}, message us on WhatsApp, or use the booking bar at the top of this page. We'll confirm a time with you.`,
   },
   {
@@ -60,8 +60,9 @@ export default function HomePage() {
               Everything your car needs, from one Truganina workshop.
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-ink-soft">
-              Roadworthy certificates, mechanical repairs, rentals and vehicle
-              sales, handled by the same team, at prices our reviews keep
+              Servicing, roadworthy certificates, brakes, suspension, engine
+              repairs and tyres for European, Japanese and everyday cars,
+              explained before any work starts, at prices our reviews keep
               calling fair.
             </p>
           </div>

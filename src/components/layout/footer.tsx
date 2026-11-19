@@ -6,6 +6,7 @@ import {
   fullAddress,
   hours,
   mapsHref,
+  services,
   suburbs,
   telHref,
   whatsappHref,
@@ -15,7 +16,7 @@ export function Footer() {
   return (
     <footer className="border-t border-hairline bg-canvas text-ink">
       <div className="w-full px-4 py-16 sm:px-10 xl:px-16">
-        <div className="grid gap-12 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
               <Image
@@ -28,8 +29,8 @@ export function Footer() {
               <span className="font-display text-lg font-bold">{business.name}</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-muted">
-              {business.tagline}. Roadworthy certificates, mechanical repairs,
-              car rentals and vehicle sales in Truganina.
+              {business.tagline}. Car servicing, repairs, tyres and
+              roadworthy certificates in Truganina.
             </p>
           </div>
 
@@ -68,6 +69,21 @@ export function Footer() {
                   {fullAddress}
                 </a>
               </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold text-gold-light">
+              Services
+            </h3>
+            <ul className="mt-4 grid grid-cols-1 gap-2 text-sm text-ink/75">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/services/${s.slug}`} className="hover:text-ink">
+                    {s.shortName}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

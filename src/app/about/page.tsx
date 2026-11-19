@@ -10,7 +10,7 @@ import { business } from "@/lib/business";
 
 export const metadata: Metadata = {
   title: "About Our Truganina Workshop",
-  description: `${business.name} is a Truganina auto workshop operated by ${business.legalName}, offering roadworthy certificates, mechanical repairs, car rentals and vehicle sales.`,
+  description: `${business.name} is a Truganina auto workshop operated by ${business.legalName}, offering car servicing, mechanical repairs, tyres and roadworthy certificates.`,
 };
 
 export default function AboutPage() {
@@ -33,23 +33,23 @@ export default function AboutPage() {
             <p className="text-[17px] leading-relaxed text-ink-soft">
               Memon Motors is a Truganina workshop operated by ZHS Gadar Pty
               Ltd (ABN {business.abn}), a registered Australian company. One
-              team handles roadworthy certificates, mechanical repairs, car
-              rentals and vehicle sales from {business.address.street}.
+              team handles car servicing, roadworthy certificates, brake,
+              suspension and engine repairs, and tyres, for European, Japanese
+              and everyday cars, from {business.address.street}.
             </p>
             <p className="text-[17px] leading-relaxed text-ink-soft">
               The thing customers mention most isn&apos;t a specific repair.
               It&apos;s being told the truth about what a car actually needs,
               at a price that doesn&apos;t feel inflated. That&apos;s the
-              reputation the business has built one roadworthy certificate and
-              one rental at a time, and it&apos;s the standard every job is
-              held to.
+              reputation the business has built one service and one repair at
+              a time, and it&apos;s the standard every job is held to.
             </p>
           </Reveal>
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-md shadow-card">
             <Image
-              src="/images/about-workshop.jpg"
-              alt="Inside the Memon Motors workshop, vehicles in for service"
+              src="/images/workshop-bay.jpg"
+              alt="Vehicles parked in a workshop bay during repairs"
               fill
               sizes="(min-width: 1024px) 420px, 100vw"
               className="object-cover"

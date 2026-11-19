@@ -77,7 +77,7 @@ export function Hero() {
     >
       <div ref={photoRef} className="absolute inset-0 will-change-transform" aria-hidden>
         <Image
-          src="/images/vehicle-sales.jpg"
+          src="/images/workshop-hoists.jpg"
           alt=""
           fill
           priority
@@ -99,9 +99,9 @@ export function Hero() {
           </h1>
 
           <p className="mt-7 max-w-xl text-lg text-ink-soft sm:text-xl">
-            Roadworthy certificates, mechanical repairs, car rentals and
-            vehicle sales from one Truganina workshop, serving Melbourne&apos;s
-            western suburbs.
+            Car servicing, brakes, suspension, engine repairs, tyres and
+            roadworthy certificates from one Truganina workshop, serving
+            Melbourne&apos;s western suburbs.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">

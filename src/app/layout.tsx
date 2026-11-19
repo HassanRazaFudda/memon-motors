@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   // self-referencing canonical on the one preferred host.
   alternates: { canonical: "./" },
   title: {
-    default: `Truganina Mechanic, Roadworthy & Car Rental | ${business.name}`,
+    default: `Truganina Car Mechanic, Tyres & Roadworthy | ${business.name}`,
     template: `%s | ${business.name}`,
   },
-  description: `Roadworthy certificates, mechanical repairs, car rentals and vehicle sales from one Truganina workshop. ${business.rating.value}★ from ${business.rating.countLabel} Google reviews. Call ${business.phoneDisplay}.`,
+  description: `Car servicing, brakes, suspension, engine repairs, tyres and roadworthy certificates in Truganina. ${business.rating.value}★ from ${business.rating.countLabel} Google reviews. Call ${business.phoneDisplay}.`,
   icons: {
     icon: "/favicon-logo.png",
     apple: "/favicon-logo.png",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     locale: "en_AU",
     siteName: business.name,
     title: `${business.name} | ${business.tagline}`,
-    description: `Roadworthy certificates, mechanical repairs, car rentals and vehicle sales in Truganina VIC. ${business.rating.value}★ from ${business.rating.countLabel} Google reviews.`,
+    description: `Car servicing, repairs, tyres and roadworthy certificates for European, Japanese and everyday cars in Truganina VIC. ${business.rating.value}★ from ${business.rating.countLabel} Google reviews.`,
     url: SITE.url,
     images: [{ url: "/logo.png", width: 1254, height: 1254, alt: `${business.name} logo` }],
   },

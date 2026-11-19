@@ -8,7 +8,7 @@ import { SITE } from "@/lib/schema";
  * ignore `lastmod` for the whole site. `priority` and `changefreq` are
  * omitted on purpose: Google ignores both.
  */
-const CONTENT_LAST_UPDATED = new Date("2026-10-31");
+const CONTENT_LAST_UPDATED = new Date("2026-11-19");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

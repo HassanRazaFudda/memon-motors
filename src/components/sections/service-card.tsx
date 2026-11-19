@@ -19,25 +19,30 @@ export function ServiceCard({ service }: { service: Service }) {
         service.priority && "sm:col-span-2"
       )}
     >
-      <div
-        className={cn(
-          "relative overflow-hidden",
-          service.priority ? "aspect-[21/9]" : "aspect-[16/10]"
-        )}
-      >
-        <Image
-          src={service.image.src}
-          alt={service.image.alt}
-          fill
-          sizes={service.priority ? "(min-width: 640px) 70vw, 100vw" : "(min-width: 640px) 35vw, 100vw"}
-          className="object-cover transition-transform duration-700 ease-[var(--ease-out-smooth)] group-hover:scale-105"
-        />
-        {service.priority && (
-          <span className="absolute left-4 top-4 bg-gold px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-canvas-warm">
-            Most requested
-          </span>
-        )}
-      </div>
+      {service.image ? (
+        <div
+          className={cn(
+            "relative overflow-hidden",
+            service.priority ? "aspect-[21/9]" : "aspect-[16/10]"
+          )}
+        >
+          <Image
+            src={service.image.src}
+            alt={service.image.alt}
+            fill
+            sizes={service.priority ? "(min-width: 640px) 70vw, 100vw" : "(min-width: 640px) 35vw, 100vw"}
+            className="object-cover transition-transform duration-700 ease-[var(--ease-out-smooth)] group-hover:scale-105"
+          />
+          {service.priority && (
+            <span className="absolute left-4 top-4 bg-gold px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-canvas-warm">
+              Most requested
+            </span>
+          )}
+        </div>
+      ) : (
+        // No photo yet: a text card led by the brand's gold stripe instead of a stand-in image.
+        <div className="gold-stripe h-1 w-full" aria-hidden />
+      )}
 
       <div className="flex flex-1 flex-col justify-between p-6">
         <div>

@@ -5,9 +5,9 @@ import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Mechanic, Roadworthy, Rentals & Sales",
+  title: "Car Servicing, Repairs, Tyres & Roadworthy",
   description:
-    "Roadworthy certificates, mechanical repairs and servicing, car rentals and vehicle sale & purchase at Memon Motors, 37A Dunmore Dr, Truganina VIC.",
+    "Car servicing, roadworthy certificates, brake, suspension and engine repairs, tyres, and European and Japanese cars at Memon Motors, Truganina VIC.",
 };
 
 export default function ServicesPage() {
@@ -27,8 +27,9 @@ export default function ServicesPage() {
               Services
             </h1>
             <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-ink-soft">
-              Roadworthy certificates, mechanical repairs, car rentals and
-              vehicle sales, all handled by the same workshop in Truganina.
+              Servicing, repairs, tyres and roadworthy certificates, all
+              handled by the same workshop in Truganina. Every job is
+              explained and quoted before it starts.
             </p>
             <div className="mt-10">
               <ServicesGrid />

@@ -38,20 +38,20 @@ All of these follow Google's guidelines. None needs fake reviews, a virtual loca
 |---|---|---|---|
 | 1 | **Confirm the name** | See risk above | Owner |
 | 2 | **Set the website field to the final canonical URL** | `https://www.memonmotors.com/`. The profile currently points to the apex | Owner / GBP access |
-| 3 | **Check secondary categories** | Add only ones that are true. Candidates to evaluate in the category list: *Car rental agency*, *Used car dealer*, and a vehicle-inspection/roadworthy category if Google offers a fitting one. Pick what Google lists, do not invent | GBP access |
-| 4 | **Fill the Services list** | Roadworthy certificate, diagnostics, brake repair, air conditioning, battery replacement, oil change, scheduled servicing, steering and suspension, car rental, vehicle sale and purchase. These come from the RepairBook tags and site. Remove any not offered | GBP access |
+| 3 | **Check secondary categories** | Add only ones that are true. Since the 19 Nov 2026 repositioning: **remove** any car-rental or used-car-dealer categories. Candidates to evaluate: a tyre shop or brake shop category, and a vehicle-inspection/roadworthy category if Google offers a fitting one. Pick what Google lists, do not invent | GBP access |
+| 4 | **Fill the Services list** | Use the site's nine service names: Roadworthy certificates, Car servicing, Brake repairs, European car servicing & repairs, Mechanical repairs & diagnostics, Engine repairs & diagnostics, Suspension & steering repairs, Car tyres, Japanese car servicing & repairs. Remove car rental and vehicle sale/purchase. Remove any service the owner doesn't confirm | GBP access |
 | 5 | **Description (≤750 chars)** | Draft below. Add only true facts | Owner |
 | 6 | **Hours** | Already shown correctly. Add special-hours entries for public holidays | Owner |
-| 7 | **Photos** | Aim for real photos: exterior with signage, the workshop, team, rental cars, the hoist. Photos named and described honestly. Add a few per month | Owner |
+| 7 | **Photos** | Aim for real photos: exterior with signage, the workshop, team, real jobs, the hoist. Photos named and described honestly. Add a few per month | Owner |
 | 8 | **Reviews: ask every happy customer** | A short card or QR with the direct review link after each job. Wording suggestion: *"If we looked after you, a Google review helps others find an honest mechanic."* Never offer a reward, never filter who you ask | Owner |
 | 9 | **Reply to every review**, usually within 48 hours | Mention the service naturally ("thanks for trusting us with your roadworthy") without stuffing | Owner |
-| 10 | **Posts** | A short post every 1–2 weeks: a roadworthy tip, rental availability, a before/after repair. Google has not said posts affect ranking. They keep the profile current for people who view it | Owner |
+| 10 | **Posts** | A short post every 1–2 weeks: a roadworthy tip, a tyre check reminder, a before/after repair. Google has not said posts affect ranking. They keep the profile current for people who view it | Owner |
 | 11 | **Booking / appointment link** | Add the website booking page as the appointment link | GBP access |
 | 12 | **Add a UTM to the website link** (`?utm_source=gbp&utm_medium=organic`) | Lets GA4 separate Maps visits from organic search once GA4 exists | GBP access + GA4 |
 
 ### Draft description (edit before use, every sentence must stay true)
 
-> Memon Motors is a Truganina workshop offering roadworthy certificates, mechanical repairs and servicing, car rentals, and vehicle sale and purchase, all from one site at 37A Dunmore Dr. We explain what your car needs, quote before we start, and only begin once you approve. Customers regularly mention fair pricing and honest advice. Call 0469 042 720 or message us on WhatsApp. Appointments recommended.
+> Memon Motors is a car repair and servicing workshop at 37A Dunmore Dr, Truganina. We handle car servicing, roadworthy certificates, brake, suspension and engine repairs, diagnostics and tyres, for European, Japanese and everyday cars. We explain what your car needs, quote before we start, and only begin once you approve. Customers regularly mention fair pricing and honest advice. Call 0469 042 720 or message us on WhatsApp. Appointments recommended.
 
 (The "fair pricing and honest advice" sentence is supported by Google's own review-topic chips and the reviews. Remove it if you would rather not claim it.)
 

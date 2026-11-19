@@ -2,7 +2,7 @@
 
 ## Implementation report: what was actually done
 
-Everything below is **changed in the working tree and verified on a local production build** (build exit 0, lint clean, 14 pages checked for canonical, unique title/description, exactly one `aggregateRating`, valid JSON-LD). **Nothing is committed or deployed yet.** No Google dashboard, Search Console or directory listing was changed, because there was no access.
+Everything below was changed in code, verified on a local production build (build exit 0, lint clean), then **deployed** (`7274a8a` on 31 Oct 2026 and `27b9860` on 1 Nov 2026, both Success in Coolify) and re-checked on the live site on 1 Nov 2026: all 18 sitemap URLs return a self-referencing www canonical, a unique title and exactly one `aggregateRating`; every http/apex variant 301s to `https://www.memonmotors.com`. No Google Business Profile or directory listing was changed, because there was no access.
 
 ### Done in code
 
@@ -22,13 +22,13 @@ Everything below is **changed in the working tree and verified on a local produc
 
 Files touched: `src/lib/business.ts`, `src/lib/schema.ts`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/sitemap.ts`, `src/app/about|areas|areas/[suburb]|contact|reviews|services|services/[slug]/page.tsx`, `src/components/sections/hero.tsx`, `reviews-section.tsx`, `sticky-booking-card.tsx`, `trust-block.tsx`, new `faq-section.tsx`, plus `package.json` and `pnpm-lock.yaml`.
 
-### Pending: needs a deploy
+### Deploy and Search Console steps (status on 1 Nov 2026)
 
-1. Commit and push (suggest separate commits: security upgrade, canonical + schema, content/accuracy).
-2. Coolify redeploy.
-3. **Coolify domain setting:** direction "Redirect to www" so the apex 301s to www. Also check the http→https redirect is permanent (currently 307).
-4. Search Console: resubmit `https://www.memonmotors.com/sitemap.xml`, **Validate Fix** on "Review has multiple aggregate ratings", then **Test Live URL → Request Indexing** on the home page.
-5. Run PageSpeed Insights manually for `/` and `/services/roadworthy-certificate` (mobile) and record the numbers as the Core Web Vitals baseline.
+1. Commit and push. **Done** (`7274a8a`, `27b9860`).
+2. Coolify redeploy. **Done** (both deployments Success).
+3. **Coolify domain setting:** apex→www and a permanent redirect type. **Done**, `curl` shows 301 on every http/apex variant.
+4. Search Console: sitemap `/sitemap.xml` submitted (Success, 18 pages discovered). **Validate Fix** on "Review has multiple aggregate ratings" shows **Started** (the report lists 4 items, all crawled before the fix). **Pending:** re-check the validation result after Google recrawls. Request Indexing is not needed: the home page was already recrawled after the first deploy and Google's selected canonical matches ours.
+5. **Still pending:** run PageSpeed Insights manually for `/` and `/services/roadworthy-certificate` (mobile) and record the numbers as the Core Web Vitals baseline.
 
 ### Pending: needs the owner
 
@@ -38,7 +38,7 @@ Files touched: `src/lib/business.ts`, `src/lib/schema.ts`, `src/app/layout.tsx`,
 | 2 | Confirm hours (Google says Mon–Fri to 5:30pm, Sat 1–3pm) | NAP consistency |
 | 3 | Shopfront sign: "Memon Motors" or "Memon Motors Melbourne"? | GBP name policy risk |
 | 4 | Is the roadworthy same-day or next-day? Any "from $" price you are happy to publish? | The #1 follow-up search is price. Not published without confirmation |
-| 5 | Rental terms: weekly rates you will publish, bond, minimum driver age and licence, insurance, rideshare (Uber) rentals allowed? | Rental searches are specific. Reviews mention a "bond" |
+| 5 | ~~Rental terms~~: retired 19 Nov 2026, rentals no longer offered. Replaced by the service-scope questions in `docs/strategy/01-positioning-and-competitors.md` §5 | — |
 | 6 | Which services are really offered: logbook servicing, pre-purchase inspection, AC regas, tyres, mobile? | Decides which new pages are honest to build |
 | 7 | Repair warranty? Years of experience / trading start date? | Strong trust signals, only if true |
 | 8 | GA4 measurement ID (create a free GA4 property) | No conversion tracking exists yet |
@@ -64,24 +64,26 @@ Files touched: `src/lib/business.ts`, `src/lib/schema.ts`, `src/app/layout.tsx`,
 
 ### Target queries to track monthly
 
-mechanic truganina · car service truganina · roadworthy certificate truganina · roadworthy tarneit · roadworthy point cook · roadworthy werribee · mechanic tarneit · mechanic point cook · mechanic hoppers crossing · car rental truganina · memon motors (brand)
+mechanic truganina · car service truganina · roadworthy certificate truganina · roadworthy tarneit · roadworthy point cook · roadworthy werribee · mechanic tarneit · mechanic point cook · mechanic hoppers crossing · tyres truganina · brake repair truganina · european car mechanic hoppers crossing · memon motors (brand)
 
 ### AI prompt log protocol
 
 Monthly, in a clean browser session, same wording each time, record date, platform, whether Memon Motors appears, who else is named, and what sources are cited:
 
-1. who is a reliable mechanic in Truganina for a roadworthy certificate and car rental
+1. who is a reliable mechanic in Truganina for a roadworthy certificate
 2. best mechanic near Truganina for a roadworthy certificate
 3. how much is a roadworthy certificate in Victoria
-4. cheap car rental near Truganina
+4. who can fix my brakes near Truganina
 5. where can I get a car service near Tarneit
+6. tyre shop near Tarneit
+7. european car service west melbourne
 
 Platforms: Google AI Mode / AI Overviews, ChatGPT, Gemini, Copilot, Perplexity. Only Google AI Mode has been tested so far (see `02-…md`).
 
 ## 30 / 60 / 90 day plan
 
 **Days 0–30: fix and baseline**
-- Deploy this branch. Coolify apex→www redirect. Resubmit sitemap, validate the rating fix, request indexing.
+- Done: deploy, Coolify apex→www permanent redirect, sitemap submitted, rating-fix validation started. Next: check the validation result.
 - Capture the baselines above. Install GA4 with call/WhatsApp/form events once the ID is supplied.
 - Owner answers the ten questions. Publish the licence number and any confirmed RWC turnaround/price.
 - GBP: confirm name, set website to www, add categories/services/description, photos, reply to all reviews.

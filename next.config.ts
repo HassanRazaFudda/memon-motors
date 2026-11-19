@@ -13,6 +13,15 @@ const nextConfig: NextConfig = {
   images: {
     maximumDiskCacheSize: 100_000_000,
   },
+  // Car rentals and vehicle sale/purchase were dropped on 2026-11-19 when the
+  // business repositioned as a repair workshop. Both pages were indexed, so
+  // they redirect permanently to the services overview instead of 404ing.
+  async redirects() {
+    return [
+      { source: "/services/car-rentals", destination: "/services", permanent: true },
+      { source: "/services/vehicle-sales", destination: "/services", permanent: true },
+    ];
+  },
   // cacheComponents + partialPrefetching (Next 16's experimental PPR/Activity
   // machinery) caused a reproducible "insertBefore ... not a child of this
   // node" crash on every client-side <Link> navigation — the full error
